@@ -47,25 +47,7 @@ docker info
 python3 ./root-crawler.py --random
 ```
 
-```
-(venv) khub@khub-desktop:/mnt/c/Users/Khub/source/repos/root-crawler/root-crawler-main$ python3 ./root-crawler.py --random
- ____             _      ____                    _
-|  _ \ ___   ___ | |_   / ___|_ __ __ ___      _| | ___ _ __
-| |_) / _ \ / _ \| __| | |   | '__/ _` \ \ /\ / / |/ _ \ '__|
-|  _ < (_) | (_) | |_  | |___| | | (_| |\ V  V /| |  __/ |
-|_| \_\___/ \___/ \__|  \____|_|  \__,_| \_/\_/ |_|\___|_|
-
-
-[INFO] Choosing a random level ...
-[INFO] Level 4
-[INFO] Difficulty: hard
-[INFO] Credentials: `hacker:hacker`
-[INFO] Creating your instance ...
-[SUCCESS] Docker build completed successfully!
-[SUCCESS] Your instance was successfully deployed!
-[INFO] Log into your instance with SSH: `ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no hacker@127.0.0.1 -p 2222`
-[CHALLENGE] Can you escalate your privileges to root and get the flag!?
-```
+![Screenshot](assets/root-crawler.png)
 
 ## 🚀 Usage
 
@@ -73,15 +55,16 @@ python3 ./root-crawler.py --random
 
 | Command | Description |
 | --- | --- |
-| --random | Play a random, uncompleted level |
-| --level # | Play a specific level (e.g. --level 2) |
-| --hint | Show a hint for your current level |
-| --flag FLAG | Submit a flag (e.g. --flag 12345) |
-| --progress | See your completion progress |
-| --reset | Reset all progress in the local database |
-| --status | Show details about the current active level |
-| --stop |	Stop all active root-crawler containers |
-| --purge |	Stop & remove all containers and images for this project |
+| `--random` | Play a random level. |
+| `--difficulty [STRING]` | Specify a difficulty for --random. |
+| `--level [INT]` | Play a specific level. |
+| `--hint` | Display a hint for the current level. |
+| `--flag [STRING]` | Submit a flag. |
+| `--progress` | Display all levels, difficulties and your current progress. |
+| `--reset` | Reset all progress in the local database |
+| `--status` | Print details about the current active level and running container. |
+| `--stop` | Stop all active containers related to root-crawler. |
+| `--purge` | Stop and remove all containers related to root-crawler. |
 
 # 🛡️ Clean Up
 To free disk space and clear all project resources:
