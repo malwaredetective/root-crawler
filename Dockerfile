@@ -1,8 +1,6 @@
 # -----------------------------------------------
-# Level: 0
-# Difficulty: Easy
-# Categories: SUDO
-# Description: The user can escalate privileges due to an unsafe sudoers configuration.
+# Name: root-crawler
+# Description: A base Ubuntu image for challenges hosted at: https://github.com/malwaredetective/root-crawler.git.
 # Author: malwaredetective
 # Last updated: 06/01/2025
 # -----------------------------------------------
@@ -16,7 +14,8 @@ RUN apt-get update && apt-get install -y \
     vim \
     nano \
     file \
-    cron
+    cron \
+    libcap2-bin
 
 # --- Create Users ---
 RUN useradd -m -s /bin/bash hacker && echo "hacker:hacker" | chpasswd && \
@@ -29,16 +28,3 @@ wget https://github.com/diego-treitos/linux-smart-enumeration/releases/latest/do
 wget https://github.com/DominicBreuker/pspy/releases/download/v1.2.1/pspy64 -O /opt/tools/pspy64 && \
 chown -R hacker:hacker /opt/tools/ && \
 chmod -R 755 /opt/tools/
-
-# --- Configure Privilege Escalation Vulnerability ---
-RUN adduser hacker sudo && \
-    echo "hacker ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/hacker
-
-# --- Create the Root Flag ---
-RUN echo "207eeec707affb4ab39ffb63dc3df9e8" > /root/root.txt && chmod 400 /root/root.txt 
-
-# --- Expose SSH port ---
-EXPOSE 22
-
-# --- Set the Default Command when the Container Starts ---
-CMD ["/usr/sbin/sshd", "-D"]
