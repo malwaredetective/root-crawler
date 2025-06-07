@@ -7,38 +7,21 @@
 # Last updated: 06/01/2025
 # -----------------------------------------------
 
-FROM ubuntu:18.04
+#FROM ubuntu:18.04
+FROM khub/root-crawler:latest
 ENV DEBIAN_FRONTEND=noninteractive
 
 # --- Install Required Software Packages ---
 RUN apt-get update && apt-get install -y \
     build-essential \
-    openssh-server \
-    vim \
-    nano \
-    file \
-    cron \
     gcc \
     make \
     net-tools \
-    netcat \
+    netcat-openbsd \
     libpam0g-dev \
     libutempter0 \
     libutempter-dev \
-    libncurses5-dev \
-    libncursesw5-dev
-
-# --- Create Users ---
-RUN useradd -m -s /bin/bash hacker && echo "hacker:hacker" | chpasswd && \
-mkdir /var/run/sshd
-
-# --- Download and Configure Linux Privilege Escalation Tools ---
-RUN mkdir /opt/tools && \
-wget https://github.com/peass-ng/PEASS-ng/releases/latest/download/linpeas.sh -O /opt/tools/linpeas.sh && \
-wget https://github.com/diego-treitos/linux-smart-enumeration/releases/latest/download/lse.sh -O /opt/tools/lse.sh && \
-wget https://github.com/DominicBreuker/pspy/releases/download/v1.2.1/pspy64 -O /opt/tools/pspy64 && \
-chown -R hacker:hacker /opt/tools/ && \
-chmod -R 755 /opt/tools/
+    libncurses-dev 
 
 # --- Configure Privilege Escalation Vulnerability ---
 WORKDIR /tmp
@@ -46,7 +29,7 @@ COPY screen-4.5.0.tar.gz /tmp/screen-4.5.0.tar.gz
 
 RUN tar xzf screen-4.5.0.tar.gz && \
 cd screen-4.5.0 && \
-./configure && \
+./configure CFLAGS="-fcommon" && \
 make && \
 make install && \
 rm -rf /tmp/*

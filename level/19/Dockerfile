@@ -7,17 +7,12 @@
 # Last updated: 06/01/2025
 # -----------------------------------------------
 
-FROM ubuntu:18.04
+#FROM ubuntu:18.04
+FROM khub/root-crawler:latest
 ENV DEBIAN_FRONTEND=noninteractive
 
 # --- Install Required Software Packages ---
-RUN apt-get update && apt-get install -y \
-    sudo \
-    openssh-server \
-    vim \
-    nano \
-    file \
-    cron \
+RUN apt-get install -y \
     git \
     gcc \
     psmisc \

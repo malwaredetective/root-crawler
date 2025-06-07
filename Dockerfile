@@ -15,6 +15,9 @@ RUN apt-get update && apt-get install -y \
     nano \
     file \
     cron \
+    net-tools \
+    netcat-openbsd \ 
+    tmux \ 
     libcap2-bin
 
 # --- Create Users ---

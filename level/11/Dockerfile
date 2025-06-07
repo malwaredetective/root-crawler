@@ -7,30 +7,13 @@
 # Last updated: 06/01/2025
 # -----------------------------------------------
 
-FROM ubuntu:22.04
-
-# --- Install Required Software Packages ---
-RUN apt-get update && apt-get install -y \
-    sudo \
-    openssh-server \
-    vim \
-    nano \
-    file \
-    cron
-
-# --- Create Users ---
-RUN useradd -m -s /bin/bash hacker && echo "hacker:hacker" | chpasswd && \
-mkdir /var/run/sshd
-
-# --- Download and Configure Linux Privilege Escalation Tools --- 
-RUN mkdir /opt/tools && \
-wget https://github.com/peass-ng/PEASS-ng/releases/latest/download/linpeas.sh -O /opt/tools/linpeas.sh && \
-wget https://github.com/diego-treitos/linux-smart-enumeration/releases/latest/download/lse.sh -O /opt/tools/lse.sh && \
-wget https://github.com/DominicBreuker/pspy/releases/download/v1.2.1/pspy64 -O /opt/tools/pspy64 && \
-chown -R hacker:hacker /opt/tools/ && \
-chmod -R 755 /opt/tools/
+FROM khub/root-crawler:latest
 
 # --- Configure Privilege Escalation Vulnerability ---
+# 1. Generates a root-owned SSH keypair in /root/.ssh with passphrase 'ugotpwned'.
+# 2. Copies the root private key (still encrypted/protected by its passphrase) to /home/hacker/root.key,
+# 3. Includes a note to the hacker, hinting that the private key is for "the database server as root"
+# 4. The user can now attempt to crack the private key passphrase (e.g., with John the Ripper or ssh2john.py),
 RUN mkdir -p /root/.ssh && \
 chmod 700 /root/.ssh && \
 ssh-keygen -t rsa -b 2048 -f /root/.ssh/id_rsa -N "ugotpwned" && \

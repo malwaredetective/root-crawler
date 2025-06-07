@@ -7,30 +7,13 @@
 # Last updated: 06/01/2025
 # -----------------------------------------------
 
-FROM ubuntu:22.04
-
-# --- Install Required Software Packages ---
-RUN apt-get update && apt-get install -y \
-    sudo \
-    openssh-server \
-    vim \
-    nano \
-    file \
-    cron
-
-# --- Create Users ---
-RUN useradd -m -s /bin/bash hacker && echo "hacker:hacker" | chpasswd && \
-mkdir /var/run/sshd
-
-# --- Download and Configure Linux Privilege Escalation Tools ---
-RUN mkdir /opt/tools && \
-wget https://github.com/peass-ng/PEASS-ng/releases/latest/download/linpeas.sh -O /opt/tools/linpeas.sh && \
-wget https://github.com/diego-treitos/linux-smart-enumeration/releases/latest/download/lse.sh -O /opt/tools/lse.sh && \
-wget https://github.com/DominicBreuker/pspy/releases/download/v1.2.1/pspy64 -O /opt/tools/pspy64 && \
-chown -R hacker:hacker /opt/tools/ && \
-chmod -R 755 /opt/tools/
+FROM khub/root-crawler:latest
 
 # --- Configure Privilege Escalation Vulnerability ---
+# This block sets up the core privilege escalation path for the user:
+# 1. Generates a root-owned SSH keypair in /root/.ssh.
+# 2. Creates a SUID-root copy of /bin/cat named 'supercat' in /home/hacker.
+# 3. Sets /home/hacker permissions to 755 to ensure 'hacker' can execute the SUID binary.
 RUN mkdir -p /root/.ssh && \
 chmod 700 /root/.ssh && \
 ssh-keygen -t rsa -b 2048 -f /root/.ssh/id_rsa -N "" && \

@@ -13,7 +13,7 @@ Root Crawler turns learning Linux privilege escalation into an exciting game! Wi
 ## 📋 Prerequisites
 
 - [Python 3.8+](https://www.python.org/downloads/)
-- [Docker](https://docs.docker.com/get-docker/)
+- [Docker](https://www.docker.com/get-started/)
 
 ## ⚡ Quickstart Guide
 

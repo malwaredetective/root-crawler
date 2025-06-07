@@ -7,32 +7,19 @@
 # Last updated: 06/01/2025
 # -----------------------------------------------
 
-FROM ubuntu:22.04
-
-# --- Install Required Software Packages ---
-RUN apt-get update && apt-get install -y \
-    sudo \
-    openssh-server \
-    vim \
-    nano \
-    file \
-    cron
+FROM khub/root-crawler:latest
 
 # --- Create Users ---
-RUN useradd -m -s /bin/bash hacker && echo "hacker:hacker" | chpasswd && \
-useradd -m -s /bin/bash zerocool && echo "zerocool:neverlucky!" | chpasswd && \
-echo "zerocool ALL=(ALL) NOPASSWD: /usr/bin/nano" >> /etc/sudoers.d/zerocool-nano && chmod 440 /etc/sudoers.d/zerocool-nano && \
-mkdir /var/run/sshd
-
-# --- Download and Configure Linux Privilege Escalation Tools ---
-RUN mkdir /opt/tools && \
-wget https://github.com/peass-ng/PEASS-ng/releases/latest/download/linpeas.sh -O /opt/tools/linpeas.sh && \
-wget https://github.com/diego-treitos/linux-smart-enumeration/releases/latest/download/lse.sh -O /opt/tools/lse.sh && \
-wget https://github.com/DominicBreuker/pspy/releases/download/v1.2.1/pspy64 -O /opt/tools/pspy64 && \
-chown -R hacker:hacker /opt/tools/ && \
-chmod -R 755 /opt/tools/
+# 1. Grants 'zerocool' passwordless sudo access to /usr/bin/nano via a dedicated sudoers file.
+RUN useradd -m -s /bin/bash zerocool && echo "zerocool:neverlucky!" | chpasswd && \ 
+echo "zerocool ALL=(ALL) NOPASSWD: /usr/bin/nano" >> /etc/sudoers.d/zerocool-nano && chmod 440 /etc/sudoers.d/zerocool-nano 
 
 # --- Configure Privilege Escalation Vulnerability ---
+# 1. Sets up an SSH keypair for the 'hacker' user:
+# 2. Makes /home/zerocool world-accessible (chmod 755):
+# 3. Proper permissions are set on the .ssh directory and authorized_keys to simulate a real environment,
+# 4. Copies the vim binary to /home/hacker/vim.
+# 5. Changes ownership to 'zerocool' and sets the SUID bit (chmod 4755):
 RUN mkdir -p /home/hacker/.ssh && \
 ssh-keygen -t rsa -b 2048 -f /home/hacker/.ssh/id_rsa -N "" && \
 chown -R hacker:hacker /home/hacker/.ssh && \
@@ -41,9 +28,8 @@ mkdir -p /home/zerocool/.ssh && \
 touch /home/zerocool/.ssh/authorized_keys && \
 chmod 700 /home/zerocool/.ssh && \
 chmod 600 /home/zerocool/.ssh/authorized_keys && \
-chown -R zerocool:zerocool /home/zerocool/.ssh
-
-RUN cp /usr/bin/vim /home/hacker/vim && \
+chown -R zerocool:zerocool /home/zerocool/.ssh && \
+cp /usr/bin/vim /home/hacker/vim && \
 chown zerocool:zerocool /home/hacker/vim && \
 chmod 4755 /home/hacker/vim && \
 echo "If you want to be a real linux guru, than you HAVE to use vim! Stop using nano like a script kiddie. I set you up some challenges on my home drive. Try working through them when you get a chance." > /home/hacker/note.txt && \

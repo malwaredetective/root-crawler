@@ -7,42 +7,27 @@
 # Last updated: 06/01/2025
 # -----------------------------------------------
 
-FROM ubuntu:18.04
+FROM khub/root-crawler:latest
 
 # --- Install Required Software Packages ---
-RUN apt-get update && apt-get install -y \
+RUN apt-get install -y \
     gcc \ 
     make \ 
     build-essential \
     libssl-dev \
-    libpam0g-dev \
-    openssh-server \
-    vim \
-    nano \
-    file \
-    cron
-
-# --- Create Users ---
-RUN useradd -m -s /bin/sh hacker && echo "hacker:hacker" | chpasswd && \
-mkdir /var/run/sshd
-
-# Download and Configure Linux Privilege Escalation Tools
-RUN mkdir /opt/tools && \
-wget https://github.com/peass-ng/PEASS-ng/releases/latest/download/linpeas.sh -O /opt/tools/linpeas.sh && \
-wget https://github.com/diego-treitos/linux-smart-enumeration/releases/latest/download/lse.sh -O /opt/tools/lse.sh && \
-wget https://github.com/DominicBreuker/pspy/releases/download/v1.2.1/pspy64 -O /opt/tools/pspy64 && \
-chown -R hacker:hacker /opt/tools/ && \
-chmod -R 755 /opt/tools/
+    libpam0g-dev 
 
 # --- Configure Privilege Escalation Vulnerability ---
+# 1. Extract and compile sudo 1.8.27, which is known to be vulnerable to CVE-2019-14287.
+# 2. Update the sudoers file to allow 'hacker' user to execute /usr/bin/vim as any user except root, without a password.
 WORKDIR /opt
 COPY sudo-1.8.27.tar.gz /opt/
 RUN tar xzf sudo-1.8.27.tar.gz && \
-    cd sudo-1.8.27 && \
-    ./configure && \
-    make && \
-    make install && \
-    echo 'hacker ALL=(ALL,!root) NOPASSWD: /usr/bin/vim' >> /etc/sudoers
+cd sudo-1.8.27 && \
+./configure && \
+make && \
+make install && \
+echo 'hacker ALL=(ALL,!root) NOPASSWD: /usr/bin/vim' >> /etc/sudoers
 
 # --- Create the Root Flag ---
 RUN echo "739d80f289f091f1d5faf12cfd25fe83" > /root/root.txt && chmod 400 /root/root.txt
