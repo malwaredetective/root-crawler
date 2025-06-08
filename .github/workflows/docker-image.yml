@@ -4,30 +4,55 @@ on:
   push:
     branches: [ "main" ]
     paths:
-      - "Dockerfile"
+      - "images/base/Dockerfile"
+      - "images/legacy/Dockerfile"
       - ".github/workflows/docker-image.yml"
 
 jobs:
-  build:
+  build-and-push-base:
+    name: Build and push base image
     runs-on: ubuntu-latest
     environment: Docker Hub
-
     steps:
-    - name: Check out repository
-      uses: actions/checkout@v4
+      - name: Check out repository
+        uses: actions/checkout@v4
 
-    - name: Log in to Docker Hub
-      uses: docker/login-action@v2
-      with:
-        username: ${{ secrets.DOCKER_USERNAME }}
-        password: ${{ secrets.DOCKER_PASSWORD }}
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
 
-    - name: Build Docker image
-      run: |
-        docker build . --file Dockerfile --tag khub/root-crawler:latest
-        docker tag khub/root-crawler:latest khub/root-crawler:${{ github.sha }}
+      - name: Build base Docker image
+        run: |
+          docker build . --file images/base/Dockerfile --tag khub/root-crawler-base:latest
+          docker tag khub/root-crawler-base:latest khub/root-crawler-base:${{ github.sha }}
 
-    - name: Push Docker image
-      run: |
-        docker push khub/root-crawler:latest
-        docker push khub/root-crawler:${{ github.sha }}
+      - name: Push base Docker image
+        run: |
+          docker push khub/root-crawler-base:latest
+          docker push khub/root-crawler-base:${{ github.sha }}
+
+  build-and-push-legacy:
+    name: Build and push legacy image
+    runs-on: ubuntu-latest
+    environment: Docker Hub
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Build legacy Docker image
+        run: |
+          docker build . --file images/legacy/Dockerfile --tag khub/root-crawler-legacy:latest
+          docker tag khub/root-crawler-legacy:latest khub/root-crawler-legacy:${{ github.sha }}
+
+      - name: Push legacy Docker image
+        run: |
+          docker push khub/root-crawler-legacy:latest
+          docker push khub/root-crawler-legacy:${{ github.sha }}
