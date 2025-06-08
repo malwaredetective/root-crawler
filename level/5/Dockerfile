@@ -7,7 +7,7 @@
 # Last updated: 06/01/2025
 # -----------------------------------------------
 
-FROM khub/root-crawler:latest
+FROM khub/root-crawler-base:latest
 
 # --- Create Users ---
 RUN useradd -m -s /bin/bash neo && echo "neo:hackersRUNonCOFFEE!" | chpasswd

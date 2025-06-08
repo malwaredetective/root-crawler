@@ -7,7 +7,7 @@
 # Last updated: 06/01/2025
 # -----------------------------------------------
 
-FROM khub/root-crawler:latest
+FROM khub/root-crawler-base:latest
 
 # --- Create Users ---
 # 1. Grants 'zerocool' passwordless sudo access to /usr/bin/nano via a dedicated sudoers file.

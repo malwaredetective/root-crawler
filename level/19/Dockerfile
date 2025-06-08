@@ -8,7 +8,7 @@
 # -----------------------------------------------
 
 #FROM ubuntu:18.04
-FROM khub/root-crawler:latest
+FROM khub/root-crawler-base:latest
 ENV DEBIAN_FRONTEND=noninteractive
 
 # --- Install Required Software Packages ---

@@ -8,10 +8,15 @@
 # -----------------------------------------------
 
 #FROM ubuntu:18.04
-FROM khub/root-crawler-legacy:latest
+FROM khub/root-crawler:latest
+ENV DEBIAN_FRONTEND=noninteractive
 
 # --- Install Required Software Packages ---
 RUN apt-get update && apt-get install -y \
+    build-essential \
+    gcc \
+    make \
+    net-tools \
     netcat-openbsd \
     libpam0g-dev \
     libutempter0 \

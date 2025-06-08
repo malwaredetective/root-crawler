@@ -7,7 +7,7 @@
 # Last updated: 06/01/2025
 # -----------------------------------------------
 
-FROM khub/root-crawler:latest
+FROM khub/root-crawler-base:latest
 
 # --- Configure Privilege Escalation Vulnerability ---
 # 1. Generates a root-owned SSH keypair in /root/.ssh with passphrase 'ugotpwned'.

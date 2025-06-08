@@ -7,7 +7,7 @@
 # Last updated: 06/01/2025
 # -----------------------------------------------
 
-FROM khub/root-crawler:latest
+FROM khub/root-crawler-base:latest
 
 # --- Install Required Software Packages ---
 RUN apt-get install -y keepassxc 

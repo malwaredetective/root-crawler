@@ -7,12 +7,11 @@
 # Last updated: 06/01/2025
 # -----------------------------------------------
 
-FROM khub/root-crawler:latest
+FROM khub/root-crawler-base:latest
 
 # --- Configure Privilege Escalation Vulnerability ---
 # 1. /usr/local/bin/backup.py is created as a world-readable, world-writable shell script (755).
 # 2. A root cron job runs this script every minute.
-# 3. Any user (including 'hacker') can overwrite this script, so arbitrary code is executed as root—this is the privilege escalation vector.
 RUN echo '#!/bin/sh\ncd /home/hacker\ntar czf /tmp/backup.tar.gz *' > /usr/local/bin/backup.py && chmod 755 /usr/local/bin/backup.py && \
 echo '* * * * * root /usr/local/bin/backup.py' >> /etc/crontab
 

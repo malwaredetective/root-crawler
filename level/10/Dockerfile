@@ -7,7 +7,7 @@
 # Last updated: 06/01/2025
 # -----------------------------------------------
 
-FROM khub/root-crawler:latest
+FROM khub/root-crawler-base:latest
 
 # --- Configure Privilege Escalation Vulnerability ---
 # This block sets up the core privilege escalation path for the user:
