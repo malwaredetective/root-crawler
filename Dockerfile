@@ -18,7 +18,8 @@ RUN apt-get update && apt-get install -y \
     net-tools \
     netcat-openbsd \ 
     tmux \ 
-    libcap2-bin
+    libcap2-bin \
+    git
 
 # --- Create Users ---
 RUN useradd -m -s /bin/bash hacker && echo "hacker:hacker" | chpasswd && \

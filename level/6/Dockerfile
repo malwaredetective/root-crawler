@@ -15,7 +15,11 @@ RUN apt-get install -y \
 
 # --- Configure Privilege Escalation Vulnerability ---
 # 1. Grants the 'hacker' user passwordless sudo access to /usr/bin/gcc.
-RUN echo "hacker ALL=(ALL) NOPASSWD: /usr/bin/gcc" >> /etc/sudoers
+COPY d20.c /home/hacker/d20.c
+RUN echo "hacker ALL=(ALL) NOPASSWD: /usr/bin/gcc" >> /etc/sudoers && \
+echo "Hey I hope your ready for our upcoming session. I'm totally going to make shadowcutie fall for me this time! I'll leave bae'zel to you. :P\n\nI vibe coded a simple dice roller program so that we can stop wasting our time with modifiers. I updated your permissions so you should be able to compile it with: 'gcc -o d20 d20.c'" > /home/hacker/notes.txt && \
+chown hacker:hacker /home/hacker/d20.c && \
+chown hacker:hacker /home/hacker/notes.txt
 
 # --- Create the Root Flag ---
 RUN echo "8ee7c23a901076e22e8b6ec407c190fd" > /root/root.txt && chmod 400 /root/root.txt 
