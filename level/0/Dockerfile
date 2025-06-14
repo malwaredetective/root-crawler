@@ -2,7 +2,7 @@
 # Level: 0
 # Difficulty: Easy
 # Categories: SUDO
-# Description: The user can escalate privileges due to an unsafe sudoers configuration.
+# Description: The user can escalater their privileges by moving laterally to another accout with a hidden SUID bash binary owned by root.
 # Author: malwaredetective
 # Last updated: 06/01/2025
 # -----------------------------------------------

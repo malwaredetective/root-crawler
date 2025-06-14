@@ -22,7 +22,12 @@ RUN apt-get update && apt-get install -y \
     git
 
 # --- Create Users ---
-RUN useradd -m -s /bin/bash hacker && echo "hacker:hacker" | chpasswd && \
+RUN useradd -m -s /bin/bash hacker && echo "hacker:hacker" | chpasswd 
+
+# --- Configure SSH ---
+RUN mkdir -p /home/hacker/.ssh && \
+ssh-keygen -t rsa -b 2048 -f /home/hacker/.ssh/id_rsa -N "" && \
+chown -R hacker:hacker /home/hacker/.ssh && \
 mkdir /var/run/sshd
 
 # --- Download and Configure Linux Privilege Escalation Tools ---

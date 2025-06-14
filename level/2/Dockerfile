@@ -1,8 +1,8 @@
 # -----------------------------------------------
 # Level: 2
-# Difficulty: Medium
+# Difficulty: Hard
 # Categories: Weak File Permissions; Password Cracking
-# Description: /etc/shadow is readable; The root password is crackable.
+# Description: An exploit chain featuring lateral movement and password cracked from a low-privileged user to root.
 # Author: malwaredetective
 # Last updated: 06/01/2025
 # -----------------------------------------------
@@ -30,7 +30,7 @@ RUN  chmod 644 /etc/shadow && \
 chown shadowbyte:shadowbyte /home/shadowbyte/Database.kdbx && chmod 644 /home/shadowbyte/Database.kdbx && \
 chown shadowbyte:shadowbyte /home/shadowbyte/password-generator.py && chmod 755 /home/shadowbyte/password-generator.py
 
-RUN echo "scp shadowbyte@FILE01:/mnt/Share/password-generator.py .\npython3 ./password-generator.py\nkeepassxc-cli db-create --set-password Database.kdbx\nkeepassxc-cli add -u root -p\nkeepassxc-cli open Database.kdbx\nkeepassxc-cli show Database.kdbx root-crawler-linux-2\nwhich keepass2johnclea" > /home/shadowbyte/.bash_history && \
+RUN echo "scp shadowbyte@FILE01:/mnt/Share/password-generator.py .\npython3 ./password-generator.py\nkeepassxc-cli db-create --set-password Database.kdbx\nkeepassxc-cli add -u root -p\nkeepassxc-cli open Database.kdbx\nkeepassxc-cli show Database.kdbx root-crawler-level-2" > /home/shadowbyte/.bash_history && \
 chown shadowbyte:shadowbyte /home/shadowbyte/.bash_history && \
 chmod 600 /home/shadowbyte/.bash_history 
 

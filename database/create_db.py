@@ -21,8 +21,8 @@ def create_database():
     # LEVEL (INT), DIFFICULTY (STRING), HINT (STRING), FLAG (STRING), COMPLETED (BOOL)
     data = [
         (0, 'easy', 'Enumerate your SUDO privileges.', '207eeec707affb4ab39ffb63dc3df9e8', False),
-        (1, 'hard', 'This operating system seems outdated. Thoroughly enumerate all aspects of your SUDO configuration, including what version of SUDO you are running.', '739d80f289f091f1d5faf12cfd25fe83', False),
-        (2, 'medium', 'What files does your low-privilege user have read access to? Be on the hunt for something that does not belong.', '0e818a27a3fea74347a605528f334e3f', False),
+        (1, 'medium', 'This operating system seems outdated. Thoroughly enumerate all aspects of your SUDO configuration, including what version of SUDO you are running.', '739d80f289f091f1d5faf12cfd25fe83', False),
+        (2, 'hard', 'This challenge will test your knowledge about cracking passwords. What files does your low-privilege user have read access to? Be on the hunt for something that does not belong.', '0e818a27a3fea74347a605528f334e3f', False),
         (3, 'easy', 'What files does your low-privilege user have write access to? Keep an eye out for something that does not belong.', '370b6eb5bc21ff135c9a92c371c4f422', False),
         (4, 'easy', 'What files does your low-privilege user have write access to? Be on the hunt for something that does not belong.', 'b93841e55f11579f2203690ce64be128', False),
         (5, 'easy', 'Everybody makes mistakes. Think about the actions your past self took to solve this challenge.', 'd216d3c4b24304fc4674c728c2ececf4', False),

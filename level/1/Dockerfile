@@ -1,6 +1,6 @@
 # -----------------------------------------------
 # Level: 1
-# Difficulty: Hard
+# Difficulty: Medium
 # Categories: SUDO
 # Description: The instance is running a vulnerable version of SUDO.
 # Author: malwaredetective
