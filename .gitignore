@@ -1,6 +1,5 @@
 # root-crawler
 database/.level
-database/root_crawler.db
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

@@ -72,9 +72,9 @@ python3 ./root-crawler.py --help
 | `--status` | Show details about the current active level and running container. |
 | `--stop` | Stop all active containers related to root-crawler. |
 | `--purge` | Stop and remove all containers related to root-crawler. |
-| `--update` | Pull the latest root-crawler base images from dockerhub. |
+| `--update` | Pull the latest root-crawler base images from Docker Hub. |
 
-### **Example: Starting a Level**
+### Example: Starting a Level
 ```bash
 python3 ./root-crawler.py --level 0
 ```
@@ -83,7 +83,7 @@ Launch a specific level of Root Crawler. All information required to connect to 
 
 ![Screenshot](assets/root-crawler-level.png)
 
-### **Example: Submitting a Flag**
+### Example: Submitting a Flag
 ```bash
 python3 ./root-crawler.py --flag 12345678912345678912345678912345
 ```
@@ -92,7 +92,7 @@ After logging into an instance, escalate your privileges to capture the flag! Th
 
 ![Screenshot](assets/root-crawler-flag.png)
 
-### **Example: Requesting a Hint**
+### Example: Requesting a Hint
 ```bash
 python3 ./root-crawler.py --hint
 ```
@@ -100,6 +100,21 @@ python3 ./root-crawler.py --hint
 If you get stuck, use the `--hint` flag to retrieve a hint for the current level.
 
 ![Screenshot](assets/root-crawler-hint.png)
+
+## 🧰 Privilege Escalation Tools
+
+Each level includes some common privilege escalation tools, located in `/opt/tools` These are available for your convenience and are completely **optional**. You can solve the levels with or without them.
+- [**linpeas.sh**](https://github.com/peass-ng/PEASS-ng/): A robust linux script to search for possible privilege escalation paths.
+- [**lse.sh**](https://github.com/diego-treitos/linux-smart-enumeration/): A light-weight linux enumeration script. 
+- [**pspy64**](https://github.com/DominicBreuker/pspy/): Allows an unprivileged user to analyze processes running the background.
+
+```
+hacker@root-crawler-level-4:~$ ls -l /opt/tools/
+total 4024
+-rwxr-xr-x 1 hacker hacker  954437 Jun  1 04:38 linpeas.sh
+-rwxr-xr-x 1 hacker hacker   55098 Dec 23  2023 lse.sh
+-rwxr-xr-x 1 hacker hacker 3104768 Jan 17  2023 pspy64
+```
 
 ## 🧹 Clean Up
 `python3 root-crawler.py --purge` to remove all containers and images associated with Root Crawler. You can restart from scratch any time!
