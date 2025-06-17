@@ -107,6 +107,13 @@ If you get stuck, use the `--hint` flag to retrieve a hint for the current level
 
 ![Screenshot](assets/root-crawler-hint.png)
 
+### 🎯 Level Walkthroughs
+Looking for more guidance on a specific level or want to review the solution to a challenge?
+
+The Wiki contains [walkthroughs](https://github.com/malwaredetective/root-crawler/wiki/) with links to detailed, step-by-step guides for every level in Root Crawler.
+
+🚧 **Step-by-step walkthroughs for each level are a work in progress and will be published soon!**  
+
 ## 🧰 Privilege Escalation Tools
 
 Each level includes some common privilege escalation tools, located in `/opt/tools` These are available for your convenience and are completely **optional**. You can solve the levels with or without them.
