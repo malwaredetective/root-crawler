@@ -1,6 +1,6 @@
 # -----------------------------------------------
 # Level: 8
-# Difficulty: Easy
+# Difficulty: Medium
 # Categories: Capabilities
 # Description: The user can escalate privileges due to a binary with misconfigured capabilities.
 # Author: malwaredetective
@@ -8,6 +8,7 @@
 # -----------------------------------------------
 
 FROM khub/root-crawler-base:latest
+LABEL project="root-crawler"
 
 # --- Install Required Software Packages ---
 RUN apt-get install -y \

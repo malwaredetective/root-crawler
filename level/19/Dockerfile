@@ -1,57 +1,36 @@
 # -----------------------------------------------
 # Level: 19
-# Difficulty: 
-# Categories: 
-# Description: This level is still being built.
+# Difficulty: Medium
+# Categories: Git
+# Description: The .GIT repo contains sensitive data that was recently removed.
 # Author: malwaredetective
 # Last updated: 06/01/2025
 # -----------------------------------------------
 
-#FROM ubuntu:18.04
 FROM khub/root-crawler-base:latest
-ENV DEBIAN_FRONTEND=noninteractive
+LABEL project="root-crawler"
 
 # --- Install Required Software Packages ---
-RUN apt-get install -y \
-    git \
-    gcc \
-    psmisc \
-    netcat \
-    logrotate=3.11.0-0.1ubuntu1
+RUN apt-get install -y python3-requests sqlite3
 
-# --- Create Users ---
-RUN useradd -m -s /bin/bash hacker && echo "hacker:hacker" | chpasswd && \
-mkdir /var/run/sshd
-
-# --- Download and Configure Linux Privilege Escalation Tools ---
-RUN mkdir /opt/tools && \
-wget https://github.com/peass-ng/PEASS-ng/releases/latest/download/linpeas.sh -O /opt/tools/linpeas.sh && \
-wget https://github.com/diego-treitos/linux-smart-enumeration/releases/latest/download/lse.sh -O /opt/tools/lse.sh && \
-wget https://github.com/DominicBreuker/pspy/releases/download/v1.2.1/pspy64 -O /opt/tools/pspy64 && \
-chown -R hacker:hacker /opt/tools/ && \
-chmod -R 755 /opt/tools/
+# --- Update Users ---
+ARG ROOTPW=onePASSWORDtoRULEthemALL!
+RUN echo "root:${ROOTPW}" | chpasswd
 
 # --- Configure Privilege Escalation Vulnerability ---
-RUN touch /tmp/pwn.log && chmod 666 /tmp/pwn.log && \
-echo '/tmp/pwn.log {\n    daily\n    create 644 root root\n    rotate 7\n    notifempty\n    missingok\n}' > /etc/logrotate.d/pwnlog && \
-echo '* * * * * root /usr/sbin/logrotate /etc/logrotate.conf' >> /etc/crontab
+WORKDIR /opt/simple-vuln-scanner
 
-USER hacker
-WORKDIR /home/hacker
-RUN git clone https://github.com/whotwagner/logrotten.git && \
-cd logrotten && \
-gcc logrotten.c -o logrotten && \
-echo 'cp /bin/bash /tmp/rootbash; chmod +s /tmp/rootbash' > /home/hacker/payload && \
-chmod +x /home/hacker/payload
-
-USER root
+COPY create-repo.sh /tmp/create-repo.sh
+RUN /tmp/create-repo.sh && rm /tmp/create-repo.sh && \
+chown -R hacker:hacker /opt/simple-vuln-scanner && \
+ln -s /opt/simple-vuln-scanner/main.py /home/hacker/run-scanner
 
 # --- Create the Root Flag ---
-RUN echo "null" > /root/root.txt && chmod 400 /root/root.txt 
+RUN echo "f1749beaae51231edd44bb42473f0b73" > /root/root.txt && chmod 400 /root/root.txt 
 
 # --- Expose SSH port ---
 EXPOSE 22
 
 # --- Set the Default Command when the Container Starts ---
-CMD bash -c "service cron start; /usr/sbin/sshd -D"
+CMD ["/usr/sbin/sshd", "-D"]
 

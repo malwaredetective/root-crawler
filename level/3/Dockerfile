@@ -8,6 +8,7 @@
 # -----------------------------------------------
 
 FROM khub/root-crawler-base:latest
+LABEL project="root-crawler"
 
 # --- Install Required Software Packages ---
 RUN apt-get install -y whois 
@@ -17,9 +18,8 @@ RUN useradd -m -s /bin/bash swiper && echo "swiper:swiperNOswiping!" | chpasswd
 
 # --- Configure Privilege Escalation Vulnerability ---
 # 1. Sets /etc/shadow permissions to 666 (world-writable), which is highly insecure.
-# 2. Any user on the system, including 'hacker', can directly modify the password hashes stored in /etc/shadow. An attacker can replace the root hash with a known value, or add a new user with root privileges.
-# 3. Create a cronjob that resets the root users password, adding a race condition when the player updates the root users password.
-# 4. Added a MOTD for comidic effect. 
+# 2. Create a cronjob that resets the root users password, adding a race condition when the player updates the root users password.
+# 3. Added a MOTD for comidic effect. 
 COPY reset-password.sh /root/reset-password.sh
 
 RUN chmod 666 /etc/shadow && \
@@ -52,5 +52,3 @@ EXPOSE 22
 
 # --- Set the Default Command when the Container Starts ---
 CMD service cron start && /usr/sbin/sshd -D
-
-# needs to be more interesting

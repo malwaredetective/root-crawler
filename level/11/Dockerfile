@@ -8,12 +8,12 @@
 # -----------------------------------------------
 
 FROM khub/root-crawler-base:latest
+LABEL project="root-crawler"
 
 # --- Configure Privilege Escalation Vulnerability ---
 # 1. Generates a root-owned SSH keypair in /root/.ssh with passphrase 'ugotpwned'.
 # 2. Copies the root private key (still encrypted/protected by its passphrase) to /home/hacker/root.key,
 # 3. Includes a note to the hacker, hinting that the private key is for "the database server as root"
-# 4. The user can now attempt to crack the private key passphrase (e.g., with John the Ripper or ssh2john.py),
 RUN mkdir -p /root/.ssh && \
 chmod 700 /root/.ssh && \
 ssh-keygen -t rsa -b 2048 -f /root/.ssh/id_rsa -N "ugotpwned" && \

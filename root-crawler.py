@@ -1,7 +1,9 @@
 import os
 import random
 import argparse
+import socket
 import sqlite3
+import sys
 
 import docker
 import pyfiglet
@@ -15,8 +17,6 @@ DB_PATH = "database/root_crawler.db"
 LEVEL_FILE = os.path.join("database", ".level")
 DOCKER_IMAGE = "root-crawler"
 DEFAULT_CREDENTIALS = "hacker:hacker"
-SSH_COMMAND_TEMPLATE = "ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no hacker@127.0.0.1 -p 2222"
-
 
 # ---------------------- UTILITY FUNCTIONS -------------------------
 def ascii_art():
@@ -74,6 +74,15 @@ def get_docker_client():
         )
         return None
 
+def is_port_in_use(port):
+    """
+    Returns True if the TCP port is already bound on localhost.
+    """
+    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+        s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+        result = s.connect_ex(('127.0.0.1', port))
+        return result == 0
+    
 # ---------------------- DATABASE OPERATIONS -------------------------
 def get_incomplete_levels(difficulty=None):
     """
@@ -303,7 +312,7 @@ def stop_containers():
     manage_containers(remove=False)
 
 def purge_containers():
-    """Stop and remove all containers and images related to root-crawler."""
+    """Stop and remove all containers and images related to root-crawler, including root-crawler-labeled dangling images."""
     confirmation = input(f"{Fore.YELLOW}[WARNING]{Style.RESET_ALL} This will remove all root-crawler containers and images. Proceed? (Yes/No): ").strip().lower()
     if confirmation not in ("yes", "y"):
         print("Aborted.")
@@ -314,6 +323,16 @@ def purge_containers():
     if not client:
         return
 
+    base_images = ["khub/root-crawler-base:latest", "khub/root-crawler-legacy:latest"]
+    for base_image in base_images:
+        try:
+            client.images.remove(base_image, force=True)
+            log_message("[SUCCESS]", f"Removed image: {base_image}", Fore.GREEN)
+        except docker.errors.ImageNotFound:
+            log_message("[INFO]", f"The base image {base_image} not found. Skipping.", Fore.CYAN)
+        except Exception as e:
+            log_message("[ERROR]", f"Failed to remove base image {base_image}. Details: {e}", Fore.RED)
+
     tag_prefix = "root-crawler-level-"
     for image in client.images.list():
         for tag in image.tags:
@@ -323,15 +342,39 @@ def purge_containers():
                     client.images.remove(image.id, force=True)
                 except Exception as e:
                     log_message("[ERROR]", f"Failed to remove image {tag}. Details: {e}", Fore.RED)
+
     try:
-        client.images.prune()
-        client.volumes.prune()
-        log_message("[SUCCESS]", "Pruned dangling images and unused volumes.", Fore.GREEN)
+        dangling_images = client.images.list(filters={"dangling": True, "label": "project=root-crawler"})
+        if not dangling_images:
+            log_message("[INFO]", "No dangling images with label project=root-crawler found.", Fore.CYAN)
+        else:
+            for img in dangling_images:
+                try:
+                    log_message("[INFO]", f"Removing dangling image ID: {img.id}", Fore.CYAN)
+                    client.images.remove(img.id, force=True)
+                except Exception as e:
+                    log_message("[ERROR]", f"Failed to remove dangling image {img.id}. Details: {e}", Fore.RED)
+            log_message("[SUCCESS]", f"Pruned {len(dangling_images)} dangling root-crawler images.", Fore.GREEN)
     except Exception as e:
-        log_message("[ERROR]", f"Failed to prune images/volumes: {e}", Fore.RED)
+        log_message("[ERROR]", f"Error during dangling image prune: {e}", Fore.RED)
+
     if os.path.exists(LEVEL_FILE):
         os.remove(LEVEL_FILE)
-    log_message("[SUCCESS]", "All project containers, images, and caches have been removed. Disk space is now clear.", Fore.GREEN)
+    log_message("[SUCCESS]", "All root-crawler containers, images, and caches have been removed.", Fore.GREEN)
+
+def update_base_images():
+    client = get_docker_client()
+    if not client:
+        return
+    base_images = ["khub/root-crawler-base:latest", "khub/root-crawler-legacy:latest"]
+    for image in base_images:
+        try:
+            log_message("[INFO]", f"Pulling {image} ...", Fore.CYAN)
+            client.images.pull(image)
+            log_message("[SUCCESS]", f"Pulled latest {image}.", Fore.GREEN)
+        except Exception as e:
+            log_message("[ERROR]", f"Failed to pull {image}. Details: {e}", Fore.RED)
+
 
 def check_and_handle_existing_container(client):
     """
@@ -368,7 +411,7 @@ def check_and_handle_existing_container(client):
             return False
     return True
 
-def build_and_run_instance(difficulty=None):
+def build_and_run_instance(difficulty=None, port=2222):
     """
     Randomly select a level (optionally filtered by difficulty), build, and run the container.
     Args:
@@ -392,10 +435,10 @@ def build_and_run_instance(difficulty=None):
 
     # Select and launch a random incomplete level
     selected_level = random.choice(incomplete_levels)
-    build_and_run_specific_level(selected_level[0])
+    build_and_run_specific_level(selected_level[0], port)
 
 
-def build_and_run_specific_level(level_id):
+def build_and_run_specific_level(level_id, port=2222):
     """
     Spin up a specific level based on the provided level ID.
 
@@ -419,7 +462,7 @@ def build_and_run_specific_level(level_id):
     difficulty = level_details[0][1]
     instance_path = f"level/{level_id}"
     credentials = DEFAULT_CREDENTIALS
-    ssh_command = SSH_COMMAND_TEMPLATE
+    ssh_command = f"ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no hacker@127.0.0.1 -p {port}"
 
     log_message("[INFO]", f"Level {level_id}", Fore.CYAN)
     log_message("[INFO]", f"Difficulty: {difficulty.capitalize()}", Fore.CYAN)
@@ -436,7 +479,7 @@ def build_and_run_specific_level(level_id):
             docker_tag,
             detach=True,
             tty=True,
-            ports={"22/tcp": 2222},
+            ports={"22/tcp": port},
             auto_remove=True,
             hostname=f"root-crawler-level-{level_id}"
         )
@@ -468,21 +511,43 @@ def main():
     parser.add_argument("--flag", type=str, help="Submit a flag.")
     parser.add_argument("--hint", action="store_true", help="Display a hint for the current level.")
     parser.add_argument("--level", type=int, help="Play a specific level.")
+    parser.add_argument("--port", type=int, help="Customize the local SSH port for the challenge containers. [Default 2222]")
     parser.add_argument("--progress", action="store_true", help="Display all levels, difficulties and your current progress.") 
     parser.add_argument("--reset", action="store_true", help="Reset all progress.")
     parser.add_argument("--status", action="store_true", help="Print details about the current active level and running container.")
     parser.add_argument("--stop", action="store_true", help="Stop all active containers related to root-crawler.")
     parser.add_argument("--purge", action="store_true", help="Stop and remove all containers related to root-crawler.")
+    parser.add_argument("--update", action="store_true", help="Pull the latest root-crawler base images from dockerhub.")
 
     args = parser.parse_args()
 
+    def validate_port(port):
+        if port is None:
+            return 2222
+        try:
+            p = int(port)
+            if not (1 <= p <= 65535):
+                log_message("[ERROR]", f"Invalid port: {port}. Must be between 1 and 65535.", Fore.RED)
+                sys.exit(1)
+            if is_port_in_use(p):
+                log_message("[ERROR]", f"Port: {p} is already in use on this system. Please choose another port using the --port argument.", Fore.RED)
+                sys.exit(1)
+            if p < 1024:
+                log_message("[WARNING]", f"Port: {p} is a privileged port and may require root privileges on your system.", Fore.YELLOW)
+            return p
+        except (TypeError, ValueError):
+            log_message("[ERROR]", f"Invalid port: {port}. Must be an integer between 1 and 65535.", Fore.RED)
+            sys.exit(1)
+    
+    custom_port = validate_port(args.port)
+
     if args.random:
-        build_and_run_instance(difficulty=args.difficulty) 
+        build_and_run_instance(difficulty=args.difficulty, port=custom_port)  
     elif args.level is not None:
         if args.level < 0:
             log_message("[ERROR]", "Level ID must be >= 0.", Fore.RED)
             return
-        build_and_run_specific_level(args.level)
+        build_and_run_specific_level(args.level, port=custom_port)
     elif args.hint:
         show_hint()
     elif args.flag:
@@ -505,6 +570,9 @@ def main():
         stop_containers()
     elif args.purge:
         purge_containers()
+    elif args.update:
+        update_base_images()
+
     else:
         parser.print_help()
 

@@ -1,0 +1,32 @@
+Name:		Shadowheart		   
+Race:		Half Elf	   
+Class:		Cleric ; Domain: life
+Background:		
+
++ Stats
+|str	12[1]
+|dex	13[1]
+|con	13[1]
+|int	15[2]
+|wis	16[3]
+|chr	10[0]
+
++Skills  @ = prof; & = expert
+   [1] Athletic (str) 		
+   [1] Acrobatics (dex) 	
+   [1] Sleight of Hand (dex) 	
+   [1] Stealth (dex) 		
+   [2] Arcana (int) 		
+   [2] History (int) 		
+   [2] Investigation (int) 
+   [2] Nature (int) 		
+   [2] Religion (int) 		
+   [3] Animal Handling (wis) 	
+   [3] Insight (wis) 		
+   [3] Medicine (wis) 		
+   [3] Perception (wis) 	
+   [3] Survival (wis) 		
+   [0] Deception (chr) 	
+   [0] Intimidation (chr) 	
+   [0] Performance (chr) 	
+   [0] Persuasion (chr) 

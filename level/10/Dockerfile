@@ -8,20 +8,18 @@
 # -----------------------------------------------
 
 FROM khub/root-crawler-base:latest
+LABEL project="root-crawler"
 
 # --- Configure Privilege Escalation Vulnerability ---
-# This block sets up the core privilege escalation path for the user:
-# 1. Generates a root-owned SSH keypair in /root/.ssh.
-# 2. Creates a SUID-root copy of /bin/cat named 'supercat' in /home/hacker.
-# 3. Sets /home/hacker permissions to 755 to ensure 'hacker' can execute the SUID binary.
+# 1. Create a custom SUID binary: /usr/local/bin/supercat
 RUN mkdir -p /root/.ssh && \
 chmod 700 /root/.ssh && \
 ssh-keygen -t rsa -b 2048 -f /root/.ssh/id_rsa -N "" && \
 cat /root/.ssh/id_rsa.pub > /root/.ssh/authorized_keys && \
 chmod 600 /root/.ssh/authorized_keys && \
-cp /bin/cat /home/hacker/supercat && \
-chown root:root /home/hacker/supercat && \
-chmod 4755 /home/hacker/supercat && \
+cp /bin/cat /usr/local/bin/supercat && \
+chown root:root /usr/local/bin/supercat && \
+chmod 4755 /usr/local/bin/supercat && \
 chmod 755 /home/hacker
 
 # --- Create the Root Flag ---

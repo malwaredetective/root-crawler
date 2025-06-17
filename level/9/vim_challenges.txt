@@ -1,0 +1,11 @@
+Welcome to the VIM Challenges!
+
+1. Open this file in vim and go to line 10.
+2. Search for the word 'sudo' in this file.
+3. Replace the word 'hacker' with your username throughout this file using vim commands.
+4. Use visual mode to select and copy a block of text.
+5. Set a mark on line 5 and jump to it.
+
+Bonus: Use vim's shell mode to run 'whoami' from inside vim.
+
+Remember: Real hackers don't use nano!

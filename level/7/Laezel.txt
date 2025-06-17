@@ -1,0 +1,32 @@
+Name:		Laezel		   
+Race:		Githyanki	   
+Class:		Fighter
+Background:	-	
+	
++ Stats
+|str	16[3]
+|dex	16[3]
+|con	14[2]
+|int	10[0]
+|wis	11[1]
+|chr	10[0]
+
++Skills  @ = prof; & = expert
+   [3] Athletic (str) 		
+   [3] Acrobatics (dex) 	
+   [3] Sleight of Hand (dex) 	
+   [3] Stealth (dex) 		
+   [0] Arcana (int) 		
+   [0] History (int) 		
+   [0] Investigation (int) 
+   [0] Nature (int) 		
+   [0] Religion (int) 		
+   [1] Animal Handling (wis) 	
+   [1] Insight (wis) 		
+   [1] Medicine (wis) 		
+   [1] Perception (wis) 	
+   [1] Survival (wis) 		
+   [0] Deception (chr) 	
+   [0] Intimidation (chr) 	
+   [0] Performance (chr) 	
+   [0] Persuasion (chr) 

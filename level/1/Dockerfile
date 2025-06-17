@@ -7,8 +7,8 @@
 # Last updated: 06/01/2025
 # -----------------------------------------------
 
-#FROM ubuntu:18.04
 FROM khub/root-crawler-legacy:latest
+LABEL project="root-crawler"
 
 # --- Install Required Software Packages ---
 RUN apt-get update && apt-get install -y \

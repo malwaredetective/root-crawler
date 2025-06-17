@@ -2,18 +2,20 @@
 # Level: 4
 # Difficulty: Easy
 # Categories: Weak File Permissions
-# Description: /etc/passwd is writeable.
+# Description: An exploit chain featuring lateral movement to another user who can write to /etc/passwd.
 # Author: malwaredetective
 # Last updated: 06/01/2025
 # -----------------------------------------------
 
 FROM khub/root-crawler-base:latest
+LABEL project="root-crawler"
 
 # --- Create Users ---
 RUN useradd -m -s /bin/bash george && echo "george:Winter25" | chpasswd 
 
 # --- Configure Privilege Escalation Vulnerability ---
-# 1. Set write permissions on /etc/passwd.
+# 1. Setup a backdoor into another users account.
+# 2. Set write permissions on /etc/passwd to the editors group.
 RUN groupadd editors && usermod -a -G editors george && chgrp editors /etc/passwd && chmod 664 /etc/passwd  && \
 mkdir -p /home/george/.scripts && \ 
 echo "* * * * * george /bin/bash /home/george/.scripts/backdoor.sh &" >> /etc/crontab && \

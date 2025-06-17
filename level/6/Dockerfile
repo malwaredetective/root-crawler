@@ -8,6 +8,7 @@
 # -----------------------------------------------
 
 FROM khub/root-crawler-base:latest
+LABEL project="root-crawler"
 
 # --- Install Required Software Packages ---
 RUN apt-get install -y \

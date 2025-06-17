@@ -8,6 +8,7 @@
 # -----------------------------------------------
     
 FROM khub/root-crawler-base:latest
+LABEL project="root-crawler"
 ENV DEBIAN_FRONTEND=noninteractive
 
 # --- Install Required Software Packages ---

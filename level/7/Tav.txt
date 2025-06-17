@@ -1,0 +1,33 @@
+Name:		Tav		   
+Race:		Elf	   
+Class:		Warlock ; Sorcerer
+Background:	The Dark Urge	
+	
++ Stats
+|str	10[0]
+|dex	13[1]
+|con	13[1]
+|int	12[1]
+|wis	14[2]
+|chr	16[3]
+
++Skills  @ = prof; & = expert
+   [0] Athletic (str) 		
+   [1] Acrobatics (dex) 	
+   [1] Sleight of Hand (dex) 	
+   [1] Stealth (dex) 		
+   [1] Arcana (int) 		
+   [1] History (int) 		
+   [1] Investigation (int) 
+   [1] Nature (int) 		
+   [1] Religion (int) 		
+   [2] Animal Handling (wis) 	
+   [2] Insight (wis) 		
+   [2] Medicine (wis) 		
+   [2] Perception (wis) 	
+   [2] Survival (wis) 		
+   [3] Deception (chr) 	
+   [3] Intimidation (chr) 	
+   [3] Performance (chr) 	
+   [3] Persuasion (chr) 
+	

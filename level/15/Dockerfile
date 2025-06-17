@@ -2,12 +2,13 @@
 # Level: 15
 # Difficulty: Medium
 # Categories: CVE
-# Description: 
+# Description: A vulnerable version of exiftool can be exploited.
 # Author: malwaredetective
 # Last updated: 06/01/2025
 # -----------------------------------------------
 
 FROM khub/root-crawler-base:latest
+LABEL project="root-crawler"
 
 # --- Install Required Software Packages ---
 RUN apt-get install -y \
@@ -16,9 +17,8 @@ RUN apt-get install -y \
     djvulibre-bin 
 
 # --- Configure Privilege Escalation Vulnerability ---
-# 1. Installs a vulnerable version of exiftool (12.23), which is affected by CVE-2021-22204 (RCE via crafted DjVu files).
-# 2. Provides a mysterious PNG for the user to analyze, with challenge instructions.
-# 3. Adds an "I give up" script for the user to run via sudo if they want to skip the exploit.
+# 1. Installs a vulnerable version of exiftool (12.23), which is affected by CVE-2021-22204.
+# 3. Adds a script running as root so that the user can successfully perform the exploit.
 
 COPY exiftool-12.23.zip /tmp/exiftool-12.23.zip
 RUN cd /tmp && unzip exiftool-12.23.zip && cd exiftool-12.23 && \

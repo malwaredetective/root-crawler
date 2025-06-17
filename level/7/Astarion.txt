@@ -1,0 +1,32 @@
+Name:		Astarion		   
+Race:		Vampire Spawn	   
+Class:		Rogue
+Background:		
+
++ Stats
+|str	10[0]
+|dex	16[3]
+|con	14[2]
+|int	12[1]
+|wis	14[2]
+|chr	10[0]
+
++Skills  @ = prof; & = expert
+   [0] Athletic (str) 		
+   [3] Acrobatics (dex) 	
+   [3] Sleight of Hand (dex) 	
+   [3] Stealth (dex) 		
+   [1] Arcana (int) 		
+   [1] History (int) 		
+   [1] Investigation (int) 
+   [1] Nature (int) 		
+   [1] Religion (int) 		
+   [2] Animal Handling (wis) 	
+   [2] Insight (wis) 		
+   [2] Medicine (wis) 		
+   [2] Perception (wis) 	
+   [2] Survival (wis) 		
+   [0] Deception (chr) 	
+   [0] Intimidation (chr) 	
+   [0] Performance (chr) 	
+   [0] Persuasion (chr) 

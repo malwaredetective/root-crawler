@@ -2,12 +2,13 @@
 # Level: 14
 # Difficulty: Medium
 # Categories: SUDO
-# Description: 
+# Description: The user can exploit a vulnerable SUDO configuration with LD_LIBRARY_PATH.
 # Author: malwaredetective
 # Last updated: 06/01/2025
 # -----------------------------------------------
 
 FROM khub/root-crawler-base:latest
+LABEL project="root-crawler"
 
 # --- Install Required Software Packages ---
 RUN apt-get install -y \

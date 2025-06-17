@@ -8,6 +8,7 @@
 # -----------------------------------------------
 
 FROM khub/root-crawler-base:latest
+LABEL project="root-crawler"
 
 # --- Create Users ---
 RUN useradd -m -s /bin/bash neo && echo "neo:hackersRUNonCOFFEE!" | chpasswd
