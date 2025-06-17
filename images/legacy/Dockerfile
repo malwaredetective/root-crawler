@@ -27,8 +27,7 @@ RUN apt-get update && apt-get install -y \
     curl
 
 # --- Create Users ---
-RUN useradd -m -s /bin/sh hacker && echo "hacker:hacker" | chpasswd && \
-mkdir /var/run/sshd
+RUN useradd -m -s /bin/sh hacker && echo "hacker:hacker" | chpasswd 
 
 # --- Configure SSH ---
 RUN mkdir -p /home/hacker/.ssh && \
