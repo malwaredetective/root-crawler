@@ -13,8 +13,8 @@ LABEL project="root-crawler"
 # --- Install Required Software Packages ---
 RUN apt-get install -y \
     build-essential \
-    perl \
-    djvulibre-bin 
+    djvulibre-bin \
+    unzip
 
 # --- Configure Privilege Escalation Vulnerability ---
 # 1. Installs a vulnerable version of exiftool (12.23), which is affected by CVE-2021-22204.
@@ -27,9 +27,10 @@ RUN cd /tmp && unzip exiftool-12.23.zip && cd exiftool-12.23 && \
 
 COPY secret-message.png /home/hacker/secret-message.png
 COPY iGIVEup.py /usr/local/bin/iGIVEup.py
-RUN echo "Can you find the hidden message within secret-message.png? We have reason to believe that hackers were somehow adding additional data to this file to communicate in secret.\n\nIf you get can't solve it, find the iGIVEup.py script to admit defeat!" > /home/hacker/challenge.txt && \
+RUN dos2unix /usr/local/bin/iGIVEup.py && \
+echo "Can you find the hidden message within secret-message.png? We have reason to believe that hackers were somehow adding additional data to this file to communicate in secret.\n\nIf you get can't solve it, find the iGIVEup.py script to admit defeat!" > /home/hacker/challenge.txt && \
 chown hacker:hacker /home/hacker/challenge.txt && \
-chown hacker:hacker /home/hacker/secret-message.pngs && \
+chown hacker:hacker /home/hacker/secret-message.png && \
 chown root:root /usr/local/bin/iGIVEup.py && chmod 755 /usr/local/bin/iGIVEup.py && \
 echo 'hacker ALL=(root) NOPASSWD: /usr/bin/python3 /usr/local/bin/iGIVEup.py' > /etc/sudoers.d/hacker-iGIVEup && \
 chmod 440 /etc/sudoers.d/hacker-iGIVEup

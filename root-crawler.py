@@ -192,7 +192,7 @@ def show_progress():
 
     log_message("[INFO]", f"You have successfully pwned {completion_percentage:.1f}% of Root Crawler!\n", Fore.CYAN)
     for level, difficulty, completed in levels:
-        status = Fore.GREEN + "Pwned" if completed == 1 else Fore.YELLOW + "~"
+        status = Fore.GREEN + "Pwned" if completed == 1 else Fore.RED + "~"
         print(f"- Level {level} ({difficulty.capitalize()}): {status}")
     print("")
 

@@ -15,9 +15,7 @@ ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get install -y \
     apache2 \
     php \
-    unzip \
-    netcat \
-    net-tools
+    unzip 
 
 # --- Create Users ---
 RUN echo 'root:$uper$ecureP@55w0rd!123' | chpasswd 

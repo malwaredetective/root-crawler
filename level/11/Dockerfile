@@ -22,7 +22,7 @@ chmod 600 /root/.ssh/id_rsa /root/.ssh/authorized_keys && \
 cp /root/.ssh/id_rsa /home/hacker/root.key && \
 chown hacker:hacker /home/hacker/root.key && \
 chmod 400 /home/hacker/root.key && \
-echo -e "Hey,\n\nYou can use the private key 'root.key' to log into the database server as root and troubleshoot the error we've been getting.\nThe passphrase is the one we always use. Let me know if you find anything!\n" > /home/hacker/note.txt && \
+echo "Hey,\n\nYou can use the private key 'root.key' to log into the database server as root and troubleshoot the error we've been getting.\nThe passphrase is the one we always use. Let me know if you find anything!\n" > /home/hacker/note.txt && \
 chown hacker:hacker /home/hacker/note.txt && \
 chmod 644 /home/hacker/note.txt
 

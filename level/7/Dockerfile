@@ -25,7 +25,7 @@ COPY Astarion.txt /home/astarion/character_sheet.md
 COPY Laezel.txt /home/laezel/character_sheet.md
 COPY Shadowheart.txt /home/shadowheart/character_sheet.md
 
-RUN  sed -i 's/\r$//' /home/hacker/character_sheet.py && \
+RUN  dos2unix /home/hacker/character_sheet.py && \
 chown hacker:hacker /home/hacker/character_sheet.py && \
 chmod 755 /home/hacker/character_sheet.py && \
 chown tav:tav /home/tav/character_sheet.md && \
