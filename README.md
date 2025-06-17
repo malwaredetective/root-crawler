@@ -74,7 +74,7 @@ python3 ./root-crawler.py --help
 | `--purge` | Stop and remove all containers related to root-crawler. |
 | `--update` | Pull the latest root-crawler base images from Docker Hub. |
 
-### Example: Starting a Level
+### Starting a Level
 ```bash
 python3 ./root-crawler.py --level 0
 ```
@@ -83,7 +83,7 @@ Launch a specific level of Root Crawler. All information required to connect to 
 
 ![Screenshot](assets/root-crawler-level.png)
 
-### Example: Submitting a Flag
+### Submitting a Flag
 ```bash
 python3 ./root-crawler.py --flag 12345678912345678912345678912345
 ```
@@ -92,7 +92,7 @@ After logging into an instance, escalate your privileges to capture the flag! Th
 
 ![Screenshot](assets/root-crawler-flag.png)
 
-### Example: Requesting a Hint
+### Requesting a Hint
 ```bash
 python3 ./root-crawler.py --hint
 ```
