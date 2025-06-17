@@ -24,9 +24,10 @@ chown hacker:hacker /home/hacker/letter.txt && chmod 600 /home/hacker/letter.txt
 
 COPY backdoor.sh /home/george/.scripts/backdoor.sh
 
-RUN chown -R george:george /home/george/.scripts \
- && chmod 700 /home/george/.scripts \
- && chmod 700 /home/george/.scripts/backdoor.sh
+RUN dos2unix /home/george/.scripts/backdoor.sh && \
+chown -R george:george /home/george/.scripts && \
+chmod 700 /home/george/.scripts && \
+chmod 700 /home/george/.scripts/backdoor.sh
 
 RUN echo "# The Winds of Winter\n\n**TO DO**: Write a book ...\n\nBy GRRM" > /home/george/the-winds-of-winter.md && \
 chown george:george /home/george/the-winds-of-winter.md && chmod 600 /home/george/the-winds-of-winter.md

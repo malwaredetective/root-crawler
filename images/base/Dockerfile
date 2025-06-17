@@ -20,7 +20,8 @@ RUN apt-get update && apt-get install -y \
     tmux \ 
     libcap2-bin \
     git \
-    curl
+    curl \
+    dos2unix
 
 # --- Create Users ---
 RUN useradd -m -s /bin/bash hacker && echo "hacker:hacker" | chpasswd 

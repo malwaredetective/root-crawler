@@ -2,10 +2,10 @@
 import random
 
 nouns = [
-    "dragon", "matrix", "raven", "server", "kernel", "botnet", "shell", "rootkit", "daemon", "packet"
+    "botnet", "dragon", "raven", "shell", "rootkit"
 ]
 hacker_words = [
-    "pwn", "phreak", "zero", "crypto", "exploit", "ninja", "ghost", "shadow", "worm", "overflow"
+    "pwn", "exploit", "ghost", "worm", "overflow"
 ]
 
 def main():

@@ -22,7 +22,8 @@ RUN useradd -m -s /bin/bash swiper && echo "swiper:swiperNOswiping!" | chpasswd
 # 3. Added a MOTD for comidic effect. 
 COPY reset-password.sh /root/reset-password.sh
 
-RUN chmod 666 /etc/shadow && \
+RUN dos2unix /root/reset-password.sh && \
+chmod 666 /etc/shadow && \
 echo '* * * * * root /root/reset-password.sh' >> /etc/crontab && \
 chmod 700 /root/reset-password.sh && \
 echo "\

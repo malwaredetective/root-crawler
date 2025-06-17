@@ -24,7 +24,8 @@ RUN apt-get update && apt-get install -y \
     build-essential \
     make \
     gcc \
-    curl
+    curl \
+    dos2unix
 
 # --- Create Users ---
 RUN useradd -m -s /bin/sh hacker && echo "hacker:hacker" | chpasswd 
