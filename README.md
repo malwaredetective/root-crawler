@@ -3,7 +3,7 @@
 ![Docker](https://img.shields.io/badge/docker-required-blue)
 ![License](https://img.shields.io/badge/license-MIT-green)
 
-A gamified, hands-on toolkit for learning and practicing Linux Privilege Escalation, powered by Docker!
+A gamified, hands-on toolkit for learning and practicing Linux Privilege Escalation, powered by Docker! Level up your skills, one root shell at a time.
 
 ## 🧩 What is Root Crawler?
 
