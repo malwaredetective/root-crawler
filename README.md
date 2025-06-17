@@ -74,6 +74,10 @@ python3 ./root-crawler.py --help
 | `--purge` | Stop and remove all containers related to root-crawler. |
 | `--update` | Pull the latest root-crawler base images from Docker Hub. |
 
+### 📖 Command Reference Guide
+
+For in-depth instructions, screenshots, and advanced usage notes, visit the [Command Reference Guide](https://github.com/malwaredetective/root-crawler/wiki/) in the Wiki. This is the best place to find up-to-date information on every command and feature.
+
 ### Starting a Level
 ```bash
 python3 ./root-crawler.py --level 0
