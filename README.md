@@ -83,7 +83,9 @@ For in-depth instructions, screenshots, and advanced usage notes, visit the [Com
 python3 ./root-crawler.py --level 0
 ```
 
-Launch a specific level of Root Crawler. All information required to connect to your instance will be printed to the screen.
+The `--level` argument will launch a specific level of Root Crawler.
+- Each instance always starts you with low-privilege credentials: `hacker:hacker`.
+- SSH connection information, including the IP address and port, will be clearly printed to your screen.
 
 ![Screenshot](assets/root-crawler-level.png)
 
@@ -92,7 +94,7 @@ Launch a specific level of Root Crawler. All information required to connect to 
 python3 ./root-crawler.py --flag 12345678912345678912345678912345
 ```
 
-After logging into an instance, escalate your privileges to capture the flag! The flags can *usually* be found at `/root/root.txt`. Once retrieved, submit it to track your progress.
+After logging into an instance, escalate your privileges to capture the flag! Flags are typically found at `/root/root.txt` on the target system. Once retrieved, submit it to track your accomplishment within a local SQLite database.
 
 ![Screenshot](assets/root-crawler-flag.png)
 
@@ -139,8 +141,7 @@ total 4024
 ### **Permission denied!**
 > `ERROR: permission denied while trying to connect to the Docker daemon socket at unix:///var/run/docker.sock: Get "http://%2Fvar%2Frun%2Fdocker.sock/v1.47/info": dial unix /var/run/docker.sock: connect: permission denied`
 
-- Make sure your user is in the `docker` group.
-- Log out and log back in for group changes to take effect.
+- Make sure that the user account you're using is in the `docker` group. Try executing the application as `sudo` or adding your user account to the `docker` group.
 
 ### **No module named docker!**
 > `Traceback (most recent call last):
